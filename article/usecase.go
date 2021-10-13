@@ -45,7 +45,7 @@ func NewArticleUsecase(property UsecaseProperty) Usecase {
 func (u usecase) Save(ctx context.Context, payload model.Article) (resp response.Response) {
 
 	article := entity.Article{
-		ID:      payload.ID,
+		ID:      generateID(),
 		Author:  payload.Author,
 		Title:   payload.Title,
 		Body:    payload.Body,
@@ -64,4 +64,11 @@ func (u usecase) Save(ctx context.Context, payload model.Article) (resp response
 	u.pubsub.SendMessage(message)
 	return response.NewSuccessResponse(nil, response.StatOK, "")
 
+}
+func generateID() (ID int64) {
+
+	ms := time.Now().UnixNano() / 1_000
+
+	ID = ms
+	return
 }
